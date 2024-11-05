@@ -11,7 +11,7 @@ import SwiftUI
 struct OpenSkyUtahApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(openSkyService: OpenSkyService())
+            OpenSkyUtahView(openSkyService: OpenSkyService())
         }
     }
 }

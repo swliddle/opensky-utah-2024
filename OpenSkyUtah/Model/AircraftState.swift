@@ -84,7 +84,7 @@ struct AircraftState {
     }
 
     var heading: Double {
-        (trueTrack ?? 0)
+        (trueTrack ?? 0) - 90
     }
 
     var speed: String {

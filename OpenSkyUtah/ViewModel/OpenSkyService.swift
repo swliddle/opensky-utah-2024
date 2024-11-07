@@ -11,11 +11,13 @@ import SwiftUI
 
     // MARK: - Properties
 
-    private(set) var aircraftStates: [AircraftState] = []
+    private var aircraftStates: [AircraftState] = []
 
     // MARK: - Model access
 
-
+    var locatedAircraftStates: [AircraftState] {
+        aircraftStates.filter { $0.latitude != nil && $0.longitude != nil }
+    }
 
     // MARK: - User intents
     func loadSampleData() {
@@ -27,10 +29,22 @@ import SwiftUI
 
     func refreshStatus() {
         // Load Utah airplanes from the network API
+        if let url = Utah.openSkyUrl {
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data, error == nil {
+                    self.updateStates(from: data)
+                }
+            }
+
+            task.resume()
+        }
     }
 
     func toggleDetailVisibility(for aircraftState: AircraftState) {
         // Toggle the visibility of this aircraft's detail box (on our map)
+        if let selectedIndex = aircraftStates.firstIndex(matching: aircraftState) {
+            aircraftStates[selectedIndex].detailsVisible.toggle()
+        }
     }
 
     // MARK: - Private helpers

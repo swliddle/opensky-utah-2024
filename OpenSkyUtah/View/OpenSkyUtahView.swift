@@ -50,7 +50,7 @@ struct OpenSkyUtahView: View {
                         labelText(for: aircraftState),
                         coordinate: aircraftState.coordinate
                     ) {
-                        Image(systemName: "airplane")
+                        Image(systemName: aircraftState.onGround ? "airplane.circle" : "airplane")
                             .imageScale(.large)
                             .foregroundStyle(.tint)
                             .rotationEffect(.degrees(aircraftState.heading))

@@ -87,8 +87,28 @@ struct AircraftState {
         (trueTrack ?? 0) - 90
     }
 
+    var isAscending: Bool {
+        verticalRate ?? 0 > 0
+    }
+
+    var isDescending: Bool {
+        verticalRate ?? 0 < 0
+    }
+
     var speed: String {
         String(format: "%.1f mph", (velocity ?? 0) * Conversion.milesPerHourPerMetersPerSecond)
+    }
+
+    var status: AircraftStatus {
+        if isAscending {
+            .ascending
+        } else if isDescending {
+            .descending
+        } else if onGround {
+            .onGround
+        } else {
+            .standard
+        }
     }
 
     // MARK: - Helpers

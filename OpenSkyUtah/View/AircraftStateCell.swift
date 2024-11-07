@@ -21,34 +21,28 @@ struct AircraftStateCell: View {
                 .font(.subheadline)
             }
             Spacer()
-            Image(systemName: iconName)
+            Image(systemName: aircraftState.status.systemImageName)
                 .imageScale(.large)
                 .foregroundStyle(.tint)
                 .rotationEffect(.degrees(iconRotation))
         }
     }
 
-    private var iconName: String {
-        if aircraftState.verticalRate ?? 0 > 0 {
-            "airplane.departure"
-        } else if aircraftState.verticalRate ?? 0 < 0 {
-            "airplane.arrival"
-        } else if aircraftState.onGround {
-            "airplane.circle"
-        } else {
-            "airplane"
+    private var iconRotation: Double {
+        switch aircraftState.status {
+            case .onGround:
+                Heading.north
+            case .ascending, .descending:
+                Heading.notRotated
+            case .standard:
+                aircraftState.heading
         }
     }
 
-    private var iconRotation: Double {
-        if aircraftState.verticalRate ?? 0 > 0 {
-            0
-        } else if aircraftState.verticalRate ?? 0 < 0 {
-            0
-        } else if aircraftState.onGround {
-            270
-        } else {
-            aircraftState.heading
-        }
+    // MARK: - Constants
+
+    private struct Heading {
+        static let north = 270.0
+        static let notRotated = 0.0
     }
 }

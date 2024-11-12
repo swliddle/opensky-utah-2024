@@ -63,6 +63,7 @@ import SwiftUI
 
     private func updateStates(from data: Data) {
         DispatchQueue.main.async {
+            // assert(Thread.isMainThread, "UI update on background thread")
             if let json = try? JSONSerialization.jsonObject(with: data) as? [String : Any] {
                 if let states = json[Key.statesKey] as? [[Any]] {
                     let previousStates = self.aircraftStates

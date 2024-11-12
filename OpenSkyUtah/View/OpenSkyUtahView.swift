@@ -10,28 +10,23 @@ import MapKit
 
 struct OpenSkyUtahView: View {
 
-    private struct Tab {
-        static let list = 0
-        static let map = 1
+    private enum Tabs {
+        case list
+        case map
     }
 
     let openSkyService: OpenSkyService
 
-    @State private var selectedTab = Tab.map
+    @State private var selectedTab = Tabs.map
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            aircraftList
-                .tabItem {
-                    Label("Aircraft", systemImage: "list.triangle")
-                }
-                .tag(Tab.list)
-
-            aircraftMap
-                .tabItem {
-                    Label("Map", systemImage: "map")
-                }
-                .tag(Tab.map)
+            Tab("Aircraft", systemImage: "list.triangle", value: .list) {
+                aircraftList
+            }
+            Tab("Map", systemImage: "map", value: .map) {
+                aircraftMap
+            }
         }
         .onAppear {
             openSkyService.loadSampleData()
